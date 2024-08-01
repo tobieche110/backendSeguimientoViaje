@@ -9,8 +9,8 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class CoordenadaController {
 
-    @MessageMapping("/taxi")
-    @SendTo("/taxi/coordenada")
+    @MessageMapping("/taxi") // Las coordenadas son recibidas a /app/taxi/, en ese momento se ejecuta este metodo
+    @SendTo("/taxi/coordenada") // Se enviaran las coordenadas a los subscriptores de este destino
     public Coordenada envio(Coordenada coordenada){
         return coordenada;
     }

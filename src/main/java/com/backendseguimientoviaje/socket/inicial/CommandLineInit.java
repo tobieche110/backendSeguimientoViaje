@@ -16,7 +16,7 @@ import java.util.List;
 public class CommandLineInit implements CommandLineRunner {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String url = "http://localhost:8080/taxiapp/send-coordenada";
+    private final String url = "http://localhost:8080/taxiapp/send-coordenada"; // url del metodo POST de TaxiController
 
     // Array que enviaremos con las coordenadas hardcodeadas
     @Override
@@ -69,6 +69,7 @@ public class CommandLineInit implements CommandLineRunner {
         enviarCoordenadasPeriodicamente(coordenadas);
     }
 
+    // Metodo que ejecuta enviarCoordenada() cada tres segundos
     private void enviarCoordenadasPeriodicamente(List<Coordenada> coordenadas) {
         for (Coordenada coordenada : coordenadas) {
             enviarCoordenada(coordenada);
@@ -81,14 +82,16 @@ public class CommandLineInit implements CommandLineRunner {
         }
     }
 
+    // Metodo que se encarga de enviar las coordenadas al POST de TaxiController
     private void enviarCoordenada(Coordenada coordenada) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpHeaders headers = new HttpHeaders(); // Variable de headers
+        headers.setContentType(MediaType.APPLICATION_JSON); // Definimos que el contenido es un JSON
 
-        HttpEntity<Coordenada> requestEntity = new HttpEntity<>(coordenada, headers);
+        HttpEntity<Coordenada> requestEntity = new HttpEntity<>(coordenada, headers); // Creamos una entidad HTTP para ser enviada
 
-        ResponseEntity<Coordenada> responseEntity = restTemplate.postForEntity(url, requestEntity, Coordenada.class);
+        ResponseEntity<Coordenada> responseEntity = restTemplate.postForEntity(url, requestEntity, Coordenada.class); // Enviamos un POST a la url definida en la clase con el contenido.
 
+        // Si se envio correctamente la coordenada enviamos un mensaje de exito a la consola, sino uno de error
         if (responseEntity.getStatusCode().is2xxSuccessful()){
             System.out.println("Coordenada Enviada: " + coordenada);
         } else {

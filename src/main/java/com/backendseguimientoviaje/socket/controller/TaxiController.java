@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/taxiapp")
 public class TaxiController {
 
-    private final SimpMessagingTemplate template;
+    private final SimpMessagingTemplate template; // Proporciona acceso a los metodos para enviar mensajes por el Socket
 
+    // Constructor
     public TaxiController(SimpMessagingTemplate template){
         this.template = template;
     }
 
+    // Las coordenadas se reciben por este metodo POST. Este las recibe y las envia a los subscriptores de /taxi/coordenada
     @PostMapping("/send-coordenada")
     public void sendCoordenada(@RequestBody Coordenada coordenada) {
         this.template.convertAndSend("/taxi/coordenada", coordenada);

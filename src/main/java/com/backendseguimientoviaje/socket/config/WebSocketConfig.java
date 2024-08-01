@@ -11,14 +11,14 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/taxi", "/tema");
-        registry.setApplicationDestinationPrefixes("/app");
+        registry.enableSimpleBroker("/taxi", "/tema"); // Son las rutas a las que se subscribiran para recibir datos
+        registry.setApplicationDestinationPrefixes("/app"); // Prefijo para recibir datos enviados al socket (@MessageMapping)
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
-                .addEndpoint("websocket")
-                .setAllowedOrigins("*");
+                .addEndpoint("websocket") // Endpoint al que el cliente debe conectarse para enviar y recibir datos
+                .setAllowedOrigins("*"); // Se habilitan todos los origenes (cualquier url puede conectarse al endpoint)
     }
 }
